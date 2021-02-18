@@ -5,6 +5,8 @@
 library(ggplot2)
 library(dplyr)
 library(tidyr)
+library(patchwork)
+library(grid)
 
 # Import Data ----
 Vigil_data <- read.csv("data/Vigilance.csv")  #vigilance data for geese 
@@ -64,7 +66,17 @@ theme_bw()
   theme_bw()
 )
 
-# save data 
+# Combined Graph Freq Dur
+anno1 = grobTree(textGrob("a)", x=0.1,  y=0.95, hjust=0,
+                          gp=gpar(fontsize=13)))
+
+Graph_combined <- Graph_vs_Freq+
+                  annotation_custom
+  Graph_vs_Dur
+Graph_combined
+
+
+# save data ---
 ggsave(filename = 'output/Graph_vs_Freq.png', plot = Graph_vs_Freq, device = "png")
 ggsave(filename = 'output/Graph_vs_Dur.png', plot = Graph_vs_Dur, device = "png")
 ggsave(filename = 'output/Graph_vs_Dur_divBy_Freq.png', plot = Graph_vs_Dur_divBy_Freq, device = "png")
