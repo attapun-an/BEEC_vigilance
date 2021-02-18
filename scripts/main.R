@@ -13,20 +13,30 @@ Vigilance_data
 str(Vigil_data)
 
 # Clean up collums
-Vigil_data <- Vigil_data %>% 
-  select(Group_size, Frequency, Duration, Freq_divBy_Duration)
+Vigil_data <- Vigil_data %>%
+  mutate(Dur_divBy_Freq = Duration/Frequency) %>%                               # Fix data (supposed to be dur/freq, not freq/dur)
+  select(Group_size, Frequency, Duration, Dur_divBy_Freq) 
+  
 
 # Models ----
   # Run everything against Group size
   # dependant ~ independant
 Model_vs_Freq <- lm(Frequency ~ Group_size, data = Vigil_data)
 Model_vs_Dur <- lm(Duration ~ Group_size, data = Vigil_data)
-Model_vs_Freq_divBy_Duration <- lm(Freq_divBy_Duration ~ Group_size,
+Model_vs_Dur_divBy_Freq <- lm(Dur_divBy_Freq ~ Group_size,
                                    data = Vigil_data)
 
-summary(Model_vs_Freq)
+
+# Summary and saving model ouputs
+sink(file = "output/vsFreq.txt")
+print(summary(Model_vs_Freq))
+sink()
+sink(file = "output/vsDur.txt")
 summary(Model_vs_Dur)
-summary(Model_vs_Freq_divBy_Duration)
+sink()
+sink(file = "output/vsDur_divBy_Freq.txt")
+summary(Model_vs_Dur_divBy_Freq)
+sink()
 
 # Visualizing Models ----
 (Graph_vs_Freq <- ggplot(Vigil_data, aes(x = Group_size, y = Frequency))+
@@ -37,7 +47,7 @@ summary(Model_vs_Freq_divBy_Duration)
   theme_bw()
 )
 
-(Graph_vs_Freq <- ggplot(Vigil_data, aes(x = Group_size, y = Duration))+
+(Graph_vs_Dur<- ggplot(Vigil_data, aes(x = Group_size, y = Duration))+
   geom_point()+
   geom_smooth(method = "lm", se=FALSE)+
   xlab("\n Group size")+
@@ -45,8 +55,8 @@ summary(Model_vs_Freq_divBy_Duration)
 theme_bw()
 )
 
-(Graph_vs_Freq <- ggplot(Vigil_data, aes(x = Group_size,
-                                         y = Freq_divBy_Duration))+
+(Graph_vs_Dur_divBy_Freq <- ggplot(Vigil_data, aes(x = Group_size,
+                                         y = Dur_divBy_Freq))+
   geom_point()+
   geom_smooth(method = "lm", se=FALSE)+
   xlab("\n Group size")+
@@ -54,4 +64,7 @@ theme_bw()
   theme_bw()
 )
 
- 
+# save data 
+ggsave(filename = 'output/Graph_vs_Freq.png', plot = Graph_vs_Freq, device = "png")
+ggsave(filename = 'output/Graph_vs_Dur.png', plot = Graph_vs_Dur, device = "png")
+ggsave(filename = 'output/Graph_vs_Dur_divBy_Freq.png', plot = Graph_vs_Dur_divBy_Freq, device = "png")
