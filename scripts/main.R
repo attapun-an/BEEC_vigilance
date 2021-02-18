@@ -67,16 +67,24 @@ theme_bw()
 )
 
 # Combined Graph Freq Dur
-anno1 = grobTree(textGrob("a)", x=0.1,  y=0.95, hjust=0,
+Annotation_1 = grobTree(textGrob("a)", x=0.01,  y=0.95, hjust=0,
                           gp=gpar(fontsize=13)))
+Annotation_2 = grobTree(textGrob("b)", x=0.01,  y=0.95, hjust=0,
+                                 gp=gpar(fontsize=13)))
 
-Graph_combined <- Graph_vs_Freq+
-                  annotation_custom
-  Graph_vs_Dur
-Graph_combined
+(Graph_combined <- Graph_vs_Freq+
+                  annotation_custom(Annotation_1)+
+                  Graph_vs_Dur+
+                  annotation_custom(Annotation_2))
 
 
 # save data ---
-ggsave(filename = 'output/Graph_vs_Freq.png', plot = Graph_vs_Freq, device = "png")
-ggsave(filename = 'output/Graph_vs_Dur.png', plot = Graph_vs_Dur, device = "png")
-ggsave(filename = 'output/Graph_vs_Dur_divBy_Freq.png', plot = Graph_vs_Dur_divBy_Freq, device = "png")
+ggsave(filename = 'output/Graph_vs_Freq.png', plot = Graph_vs_Freq, 
+       device = "png", width = 10, height = 6, units = "in")
+ggsave(filename = 'output/Graph_vs_Dur.png', plot = Graph_vs_Dur, 
+       device = "png", width = 10, height = 6, units = "in")
+ggsave(filename = 'output/Graph_vs_Dur_divBy_Freq.png', plot = Graph_vs_Dur_divBy_Freq, 
+       device = "png", width = 10, height = 6, units = "in")
+ggsave(filename = 'output/Graph_Combined.png', plot = Graph_combined, 
+       device = "png", width = 10, height = 6, units = "in")
+
