@@ -45,8 +45,9 @@ sink()
   geom_point()+
   geom_smooth(method = "lm", se=FALSE)+
   xlab("\n Group size")+
-  ylab("Vigilance Frequency\n")+
-  theme_bw()
+  ylab("Number of times spent vigilant\n")+
+  theme_bw()+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 )
 
 (Graph_vs_Dur<- ggplot(Vigil_data, aes(x = Group_size, y = Duration))+
@@ -54,7 +55,8 @@ sink()
   geom_smooth(method = "lm", se=FALSE)+
   xlab("\n Group size")+
   ylab("Time spent being vigilant (s)\n")+
-theme_bw()
+  theme_bw()+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 )
 
 (Graph_vs_Dur_divBy_Freq <- ggplot(Vigil_data, aes(x = Group_size,
@@ -63,13 +65,14 @@ theme_bw()
   geom_smooth(method = "lm", se=FALSE)+
   xlab("\n Group size")+
   ylab("Frequency of vigilance / Duration of vigilance\n")+
-  theme_bw()
+  theme_bw()+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 )
 
 # Combined Graph Freq Dur
-Annotation_1 = grobTree(textGrob("a)", x=0.01,  y=0.95, hjust=0,
+Annotation_1 = grobTree(textGrob("(a)", x=0.01,  y=0.95, hjust=0,
                           gp=gpar(fontsize=13)))
-Annotation_2 = grobTree(textGrob("b)", x=0.01,  y=0.95, hjust=0,
+Annotation_2 = grobTree(textGrob("(b)", x=0.01,  y=0.95, hjust=0,
                                  gp=gpar(fontsize=13)))
 
 (Graph_combined <- Graph_vs_Freq+
